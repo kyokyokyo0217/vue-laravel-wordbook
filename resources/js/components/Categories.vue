@@ -89,13 +89,13 @@
                  </button>
                </div>
              </div>
+                             <!-- 保存しなくても見た目的に変更されてしまう -->
              <div v-if="activeEditCategory === category" class="d-flex justify-content-between">
                <input
                 type="text"
                 name="category"
                 class="form-control form-control-sm mr-3"
                 id="category"
-                <!-- 保存しなくても見た目的に変更されてしまう -->
                 v-model="activeEditCategory.name"
                 v-on:keyup.enter="update"
                 >

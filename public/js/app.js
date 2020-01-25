@@ -2460,7 +2460,6 @@ __webpack_require__.r(__webpack_exports__);
     // propsをdataに代入したい！！！
     return {
       word: {
-        id: '',
         name: '',
         definition: '',
         memo: '',
@@ -2472,7 +2471,6 @@ __webpack_require__.r(__webpack_exports__);
   watch: {
     activeWord: {
       handler: function handler(val, oldVal) {
-        this.word.id = this.activeWord.id;
         this.word.name = this.activeWord.name;
         this.word.definition = this.activeWord.definition;
         this.word.memo = this.activeWord.memo;
@@ -2588,7 +2586,8 @@ __webpack_require__.r(__webpack_exports__);
       showAddForm: false,
       activeWord: null,
       // びみょう
-      noWordsYet: false
+      noWordsYet: false // type: typeof this.activeWord.id
+
     };
   },
   //created()とwatch必要？
@@ -40198,9 +40197,51 @@ var render = function() {
                           "div",
                           { staticClass: "d-flex justify-content-between" },
                           [
-                            _vm._v(
-                              '\n              v-model="activeEditCategory.name"\n              v-on:keyup.enter="update"\n              >\n              '
-                            ),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.activeEditCategory.name,
+                                  expression: "activeEditCategory.name"
+                                }
+                              ],
+                              staticClass: "form-control form-control-sm mr-3",
+                              attrs: {
+                                type: "text",
+                                name: "category",
+                                id: "category"
+                              },
+                              domProps: { value: _vm.activeEditCategory.name },
+                              on: {
+                                keyup: function($event) {
+                                  if (
+                                    !$event.type.indexOf("key") &&
+                                    _vm._k(
+                                      $event.keyCode,
+                                      "enter",
+                                      13,
+                                      $event.key,
+                                      "Enter"
+                                    )
+                                  ) {
+                                    return null
+                                  }
+                                  return _vm.update($event)
+                                },
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.activeEditCategory,
+                                    "name",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
                             _c(
                               "button",
                               {
