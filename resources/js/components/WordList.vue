@@ -82,6 +82,7 @@ import AddWord from './AddWord';
         activeWord: null,
         // びみょう
         noWordsYet: false,
+        // type: typeof this.activeWord.id
       };
     },
     //created()とwatch必要？

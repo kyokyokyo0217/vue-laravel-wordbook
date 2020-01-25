@@ -71,7 +71,6 @@ export default {
     // propsをdataに代入したい！！！
     return {
       word: {
-        id: '',
         name: '',
         definition: '',
         memo: '',
@@ -83,7 +82,6 @@ export default {
   watch: {
     activeWord: {
       handler: function (val, oldVal) {
-        this.word.id = this.activeWord.id;
         this.word.name = this.activeWord.name;
         this.word.definition = this.activeWord.definition;
         this.word.memo = this.activeWord.memo;
