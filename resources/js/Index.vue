@@ -16,21 +16,51 @@
   </div>
 </template>
 <script>
-export default {
-  methods:{
-    async logout () {
-      await this.$store.dispatch('auth/logout')
+import { INTERNAL_SERVER_ERROR, UNAUTHORIZED, NOT_FOUND } from './util'
 
-      this.$router.push('/login')
-    }
-  },
+export default {
   computed: {
     isLogin () {
       return this.$store.getters['auth/check']
     },
     username () {
       return this.$store.getters['auth/username']
+    },
+    errorCode(){
+      return this.$store.state.error.code
+    },
+    apiStatus(){
+      return this.$store.state.auth.apiStatus
     }
-  }
+  },
+  watch: {
+    errorCode: {
+      async handler(val) {
+        if (val === INTERNAL_SERVER_ERROR) {
+          this.$router.push('/500')
+        }else if(val === UNAUTHORIZED){
+          await axios.get('/api/refresh-token')
+          this.$store.commit('auth/setUser', null)
+          this.$router.push('/login')
+        }else if(val === NOT_FOUND){
+          this.$router.push('/not-found')
+        }
+      },
+      immediate: true
+    },
+// ???
+    $route () {
+      this.$store.commit('error/setCode', null)
+    }
+  },
+  methods:{
+    async logout () {
+      await this.$store.dispatch('auth/logout')
+
+      if(this.apiStatus){
+        this.$router.push('/login')
+      }
+    }
+  },
 };
 </script>

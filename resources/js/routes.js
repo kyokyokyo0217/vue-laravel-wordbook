@@ -1,6 +1,8 @@
 import VueRouter from "vue-router";
 import Categories from "./components/Categories";
 import Login from "./auth/Login";
+import SystemError from "./shared/components/errors/System"
+import NotFoundError from "./shared/components/errors/NotFound"
 import store from './store'
 
 const routes = [
@@ -27,7 +29,17 @@ const routes = [
           next()
         }
       }
-    }
+    },
+    {
+      name: "systemError",
+      path: "/500",
+      component: SystemError,
+    },
+    {
+      name: "notFoundError",
+      path: "*",
+      component: NotFoundError,
+    },
 
 ];
 
