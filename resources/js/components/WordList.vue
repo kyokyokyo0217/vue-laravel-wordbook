@@ -20,7 +20,7 @@
 
           <!-- in case there is no word -->
           <div v-if="noWordsYet">
-            <h6 class="text-center pt-4">No Words For This Category Yet</h6>
+            <h6 class="text-center pt-4">No Words In This Category Yet</h6>
           </div>
 
           <div

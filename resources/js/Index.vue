@@ -3,7 +3,7 @@
     <nav class="navbar bg-white border-bottom navbar-light">
       <router-link class="navbar-brand mr-auto" to="/">LaravelWordbook</router-link>
       <div v-if="isLogin">
-        <span>Hello, {{username}}</span>
+        <span mr-4>Hello, {{username}}</span>
         <button class="btn btn-outline-secondary" @click="logout">Logout</button>
       </div>
       <div v-else>

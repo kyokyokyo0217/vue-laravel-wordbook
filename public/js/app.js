@@ -2065,6 +2065,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2084,6 +2109,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   computed: {
     apiStatus: function apiStatus() {
       return this.$store.state.auth.apiStatus;
+    },
+    loginErrorMessages: function loginErrorMessages() {
+      return this.$store.state.auth.loginErrorMessages;
+    },
+    registerErrorMessages: function registerErrorMessages() {
+      return this.$store.state.auth.registerErrorMessages;
     }
   },
   methods: {
@@ -39542,7 +39573,9 @@ var render = function() {
         _vm._v(" "),
         _vm.isLogin
           ? _c("div", [
-              _c("span", [_vm._v("Hello, " + _vm._s(_vm.username))]),
+              _c("span", { attrs: { "mr-4": "" } }, [
+                _vm._v("Hello, " + _vm._s(_vm.username))
+              ]),
               _vm._v(" "),
               _c(
                 "button",
@@ -39638,6 +39671,30 @@ var render = function() {
           ]
         },
         [
+          _vm.loginErrorMessages
+            ? _c("div", { staticClass: "text-danger" }, [
+                _vm.loginErrorMessages.email
+                  ? _c(
+                      "ul",
+                      _vm._l(_vm.loginErrorMessages.email, function(msg) {
+                        return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                      }),
+                      0
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.loginErrorMessages.password
+                  ? _c(
+                      "ul",
+                      _vm._l(_vm.loginErrorMessages.password, function(msg) {
+                        return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                      }),
+                      0
+                    )
+                  : _vm._e()
+              ])
+            : _vm._e(),
+          _vm._v(" "),
           _c(
             "form",
             {
@@ -39707,8 +39764,7 @@ var render = function() {
               _vm._v(" "),
               _vm._m(0)
             ]
-          ),
-          _vm._v("\n      Forgot Password?\n    ")
+          )
         ]
       ),
       _vm._v(" "),
@@ -39725,6 +39781,53 @@ var render = function() {
           ]
         },
         [
+          _vm.registerErrorMessages
+            ? _c("div", { staticClass: "text-danger" }, [
+                _vm.registerErrorMessages.email
+                  ? _c(
+                      "ul",
+                      _vm._l(_vm.registerErrorMessages.name, function(msg) {
+                        return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                      }),
+                      0
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.registerErrorMessages.name
+                  ? _c(
+                      "ul",
+                      _vm._l(_vm.registerErrorMessages.email, function(msg) {
+                        return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                      }),
+                      0
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.registerErrorMessages.password
+                  ? _c(
+                      "ul",
+                      _vm._l(_vm.registerErrorMessages.password, function(msg) {
+                        return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                      }),
+                      0
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.registerErrorMessages.password_confirmation
+                  ? _c(
+                      "ul",
+                      _vm._l(
+                        _vm.registerErrorMessages.password_confirmation,
+                        function(msg) {
+                          return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                        }
+                      ),
+                      0
+                    )
+                  : _vm._e()
+              ])
+            : _vm._e(),
+          _vm._v(" "),
           _c(
             "form",
             {
@@ -40587,7 +40690,7 @@ var render = function() {
             _vm.noWordsYet
               ? _c("div", [
                   _c("h6", { staticClass: "text-center pt-4" }, [
-                    _vm._v("No Words For This Category Yet")
+                    _vm._v("No Words In This Category Yet")
                   ])
                 ])
               : _vm._e(),
@@ -57671,7 +57774,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var state = {
   user: null,
-  apiStatus: null
+  apiStatus: null,
+  loginErrorMessages: null,
+  registerErrorMessages: null
 };
 var getters = {
   check: function check(state) {
@@ -57687,6 +57792,12 @@ var mutations = {
   },
   setApiStatus: function setApiStatus(state, status) {
     state.apiStatus = status;
+  },
+  setLoginErrorMessages: function setLoginErrorMessages(state, messages) {
+    state.loginErrorMessages = messages;
+  },
+  setRegisterErrorMessages: function setRegisterErrorMessages(state, messages) {
+    state.registerErrorMessages = messages;
   }
 };
 var actions = {
@@ -57718,9 +57829,14 @@ var actions = {
 
             case 8:
               context.commit('setApiStatus', false);
-              context.commit('error/setCode', response.status, {
-                root: true
-              });
+
+              if (response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"]) {
+                context.commit('setRegisterErrorMessages', response.data.errors);
+              } else {
+                context.commit('error/setCode', response.status, {
+                  root: true
+                });
+              }
 
             case 10:
             case "end":
@@ -57764,9 +57880,14 @@ var actions = {
 
             case 8:
               context.commit('setApiStatus', false);
-              context.commit('error/setCode', response.status, {
-                root: true
-              });
+
+              if (response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"]) {
+                context.commit('setLoginErrorMessages', response.data.errors);
+              } else {
+                context.commit('error/setCode', response.status, {
+                  root: true
+                });
+              }
 
             case 10:
             case "end":
@@ -57944,7 +58065,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*!******************************!*\
   !*** ./resources/js/util.js ***!
   \******************************/
-/*! exports provided: getCookieValue, OK, CREATED, NOT_FOUND, UNAUTHORIZED, INTERNAL_SERVER_ERROR */
+/*! exports provided: getCookieValue, OK, CREATED, NOT_FOUND, UNPROCESSABLE_ENTITY, UNAUTHORIZED, INTERNAL_SERVER_ERROR */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -57953,6 +58074,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OK", function() { return OK; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CREATED", function() { return CREATED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NOT_FOUND", function() { return NOT_FOUND; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNPROCESSABLE_ENTITY", function() { return UNPROCESSABLE_ENTITY; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNAUTHORIZED", function() { return UNAUTHORIZED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "INTERNAL_SERVER_ERROR", function() { return INTERNAL_SERVER_ERROR; });
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
@@ -57989,6 +58111,7 @@ function getCookieValue(searchKey) {
 var OK = 200;
 var CREATED = 201;
 var NOT_FOUND = 404;
+var UNPROCESSABLE_ENTITY = 422;
 var UNAUTHORIZED = 419;
 var INTERNAL_SERVER_ERROR = 500;
 
