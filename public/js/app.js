@@ -1889,7 +1889,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return this.$store.state.error.code;
     },
     apiStatus: function apiStatus() {
-      return this.$store.state.auth.apiStatus;
+      return this.$store.state.status.apiStatus;
     }
   },
   watch: {
@@ -2108,7 +2108,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   computed: {
     apiStatus: function apiStatus() {
-      return this.$store.state.auth.apiStatus;
+      return this.$store.state.status.apiStatus;
     },
     loginErrorMessages: function loginErrorMessages() {
       return this.$store.state.auth.loginErrorMessages;
@@ -2300,7 +2300,30 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _WordList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./WordList */ "./resources/js/components/WordList.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _WordList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./WordList */ "./resources/js/components/WordList.vue");
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2418,9 +2441,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    WordList: _WordList__WEBPACK_IMPORTED_MODULE_0__["default"]
+    WordList: _WordList__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
@@ -2434,6 +2458,14 @@ __webpack_require__.r(__webpack_exports__);
       // びみょう
       noCategoriesYet: false
     };
+  },
+  computed: {
+    apiStatus: function apiStatus() {
+      return this.$store.state.status.apiStatus;
+    },
+    categoryErrorMessages: function categoryErrorMessages() {
+      return this.$store.state.category.categoryErrorMessages;
+    }
   },
   created: function created() {
     this.getCategories();
@@ -2452,27 +2484,72 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get("/api/categories").then(function (response) {
         _this.categories = response.data.data;
+        _this.noCategoriesYet = _this.categories.length === 0 ? true : false;
+      });
+    },
+    submit: function () {
+      var _submit = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return this.$store.dispatch('category/addCategory', this.newCategory);
 
-        if (_this.categories.length === 0) {
-          _this.noCategoriesYet = true;
-        } else {
-          _this.noCategoriesYet = false;
-        }
-      });
-    },
-    submit: function submit() {
-      axios.post("/api/categories", {
-        category_name: this.newCategory
-      });
-      this.getCategories();
-      this.showNewCategoryForm = false;
-      this.newCategory = null;
-    },
-    update: function update() {
-      axios.patch("/api/categories/".concat(this.activeEditCategory.id), this.activeEditCategory);
-      this.getCategories();
-      this.activeEditCategory = null;
-    },
+              case 2:
+                if (this.apiStatus) {
+                  this.showNewCategoryForm = false;
+                  this.newCategory = null;
+                  this.getCategories();
+                }
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function submit() {
+        return _submit.apply(this, arguments);
+      }
+
+      return submit;
+    }(),
+    update: function () {
+      var _update = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.$store.dispatch('category/updateCategory', this.activeEditCategory);
+
+              case 2:
+                if (this.apiStatus) {
+                  this.activeEditCategory = null;
+                  this.getCategories();
+                }
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function update() {
+        return _update.apply(this, arguments);
+      }
+
+      return update;
+    }(),
     deleteCategory: function deleteCategory(id) {
       axios["delete"]("/api/categories/".concat(id), {
         data: {
@@ -2481,8 +2558,7 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.getCategories();
     }
-  },
-  computed: {}
+  }
 });
 
 /***/ }),
@@ -39573,9 +39649,7 @@ var render = function() {
         _vm._v(" "),
         _vm.isLogin
           ? _c("div", [
-              _c("span", { attrs: { "mr-4": "" } }, [
-                _vm._v("Hello, " + _vm._s(_vm.username))
-              ]),
+              _c("span", [_vm._v("Hello, " + _vm._s(_vm.username))]),
               _vm._v(" "),
               _c(
                 "button",
@@ -39786,7 +39860,7 @@ var render = function() {
                 _vm.registerErrorMessages.email
                   ? _c(
                       "ul",
-                      _vm._l(_vm.registerErrorMessages.name, function(msg) {
+                      _vm._l(_vm.registerErrorMessages.email, function(msg) {
                         return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
                       }),
                       0
@@ -39796,7 +39870,7 @@ var render = function() {
                 _vm.registerErrorMessages.name
                   ? _c(
                       "ul",
-                      _vm._l(_vm.registerErrorMessages.email, function(msg) {
+                      _vm._l(_vm.registerErrorMessages.name, function(msg) {
                         return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
                       }),
                       0
@@ -40244,50 +40318,72 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _vm.showNewCategoryForm
-          ? _c("div", { staticClass: "list-group-item d-flex" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.newCategory,
-                    expression: "newCategory"
-                  }
-                ],
-                staticClass: "form-control form-control-sm mr-3",
-                attrs: { type: "text", name: "category", id: "category" },
-                domProps: { value: _vm.newCategory },
-                on: {
-                  keyup: function($event) {
-                    if (
-                      !$event.type.indexOf("key") &&
-                      _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                    ) {
-                      return null
-                    }
-                    return _vm.submit($event)
-                  },
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.newCategory = $event.target.value
-                  }
-                }
-              }),
+          ? _c("div", { staticClass: "list-group-item" }, [
+              _vm.categoryErrorMessages
+                ? _c("div", { staticClass: "text-danger mx-auto" }, [
+                    _vm.categoryErrorMessages.category_name
+                      ? _c(
+                          "ul",
+                          { staticClass: "pl-2" },
+                          _vm._l(
+                            _vm.categoryErrorMessages.category_name,
+                            function(msg) {
+                              return _c("li", { key: msg }, [
+                                _vm._v(_vm._s(msg))
+                              ])
+                            }
+                          ),
+                          0
+                        )
+                      : _vm._e()
+                  ])
+                : _vm._e(),
               _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-sm btn-outline-secondary btn-smaller",
+              _c("div", { staticClass: "d-flex" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.newCategory,
+                      expression: "newCategory"
+                    }
+                  ],
+                  staticClass: "form-control form-control-sm mr-3",
+                  attrs: { type: "text", name: "category", id: "category" },
+                  domProps: { value: _vm.newCategory },
                   on: {
-                    click: function($event) {
-                      _vm.showNewCategoryForm = false
+                    keyup: function($event) {
+                      if (
+                        !$event.type.indexOf("key") &&
+                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                      ) {
+                        return null
+                      }
+                      return _vm.submit($event)
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.newCategory = $event.target.value
                     }
                   }
-                },
-                [_c("i", { staticClass: "fas fa-times" })]
-              )
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-sm btn-outline-secondary btn-smaller",
+                    on: {
+                      click: function($event) {
+                        _vm.showNewCategoryForm = false
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "fas fa-times" })]
+                )
+              ])
             ])
           : _vm._e(),
         _vm._v(" "),
@@ -40372,10 +40468,32 @@ var render = function() {
                       : _vm._e(),
                     _vm._v(" "),
                     _vm.activeEditCategory === category
-                      ? _c(
-                          "div",
-                          { staticClass: "d-flex justify-content-between" },
-                          [
+                      ? _c("div", {}, [
+                          _vm.categoryErrorMessages
+                            ? _c(
+                                "div",
+                                { staticClass: "text-danger mx-auto" },
+                                [
+                                  _vm.categoryErrorMessages.name
+                                    ? _c(
+                                        "ul",
+                                        { staticClass: "pl-2" },
+                                        _vm._l(
+                                          _vm.categoryErrorMessages.name,
+                                          function(msg) {
+                                            return _c("li", { key: msg }, [
+                                              _vm._v(_vm._s(msg))
+                                            ])
+                                          }
+                                        ),
+                                        0
+                                      )
+                                    : _vm._e()
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "d-flex" }, [
                             _c("input", {
                               directives: [
                                 {
@@ -40434,8 +40552,8 @@ var render = function() {
                               },
                               [_c("i", { staticClass: "fas fa-times" })]
                             )
-                          ]
-                        )
+                          ])
+                        ])
                       : _vm._e()
                   ]
                 )
@@ -57774,7 +57892,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var state = {
   user: null,
-  apiStatus: null,
   loginErrorMessages: null,
   registerErrorMessages: null
 };
@@ -57789,9 +57906,6 @@ var getters = {
 var mutations = {
   setUser: function setUser(state, user) {
     state.user = user;
-  },
-  setApiStatus: function setApiStatus(state, status) {
-    state.apiStatus = status;
   },
   setLoginErrorMessages: function setLoginErrorMessages(state, messages) {
     state.loginErrorMessages = messages;
@@ -57811,7 +57925,9 @@ var actions = {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              context.commit('setApiStatus', null);
+              context.commit('status/setApiStatus', null, {
+                root: true
+              });
               _context.next = 3;
               return axios.post('/api/register', data);
 
@@ -57823,12 +57939,16 @@ var actions = {
                 break;
               }
 
-              context.commit('setApiStatus', true);
+              context.commit('status/setApiStatus', true, {
+                root: true
+              });
               context.commit('setUser', response.data);
               return _context.abrupt("return", false);
 
             case 8:
-              context.commit('setApiStatus', false);
+              context.commit('status/setApiStatus', false, {
+                root: true
+              });
 
               if (response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"]) {
                 context.commit('setRegisterErrorMessages', response.data.errors);
@@ -57862,7 +57982,9 @@ var actions = {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              context.commit('setApiStatus', null);
+              context.commit('status/setApiStatus', null, {
+                root: true
+              });
               _context2.next = 3;
               return axios.post('/api/login', data);
 
@@ -57874,12 +57996,16 @@ var actions = {
                 break;
               }
 
-              context.commit('setApiStatus', true);
+              context.commit('status/setApiStatus', true, {
+                root: true
+              });
               context.commit('setUser', response.data);
               return _context2.abrupt("return", false);
 
             case 8:
-              context.commit('setApiStatus', false);
+              context.commit('status/setApiStatus', false, {
+                root: true
+              });
 
               if (response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"]) {
                 context.commit('setLoginErrorMessages', response.data.errors);
@@ -57913,7 +58039,9 @@ var actions = {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              context.commit('setApiStatus', null);
+              context.commit('status/setApiStatus', null, {
+                root: true
+              });
               _context3.next = 3;
               return axios.post('/api/logout');
 
@@ -57925,12 +58053,16 @@ var actions = {
                 break;
               }
 
-              context.commit('setApiStatus', true);
+              context.commit('status/setApiStatus', true, {
+                root: true
+              });
               context.commit('setUser', null);
               return _context3.abrupt("return", false);
 
             case 8:
-              context.commit('setApiStatus', false);
+              context.commit('status/setApiStatus', false, {
+                root: true
+              });
               context.commit('error/setCode', response.status, {
                 root: true
               });
@@ -57959,7 +58091,9 @@ var actions = {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              context.commit('setApiStatus', null);
+              context.commit('status/setApiStatus', null, {
+                root: true
+              });
               _context4.next = 3;
               return axios.get('/api/user');
 
@@ -57972,12 +58106,16 @@ var actions = {
                 break;
               }
 
-              context.commit('setApiStatus', true);
+              context.commit('status/setApiStatus', true, {
+                root: true
+              });
               context.commit('setUser', user);
               return _context4.abrupt("return", false);
 
             case 9:
-              context.commit('setApiStatus', false);
+              context.commit('status/setApiStatus', false, {
+                root: true
+              });
               context.commit('error/setCode', response.status, {
                 root: true
               });
@@ -58001,6 +58139,156 @@ var actions = {
   namespaced: true,
   state: state,
   getters: getters,
+  mutations: mutations,
+  actions: actions
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/category.js":
+/*!****************************************!*\
+  !*** ./resources/js/store/category.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+var state = {
+  categoryErrorMessages: null
+};
+var mutations = {
+  setCategoryErrorMessages: function setCategoryErrorMessages(state, messages) {
+    state.categoryErrorMessages = messages;
+  }
+};
+var actions = {
+  addCategory: function () {
+    var _addCategory = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(context, data) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              context.commit('status/setApiStatus', null, {
+                root: true
+              });
+              _context.next = 3;
+              return axios.post('/api/categories', {
+                category_name: data
+              });
+
+            case 3:
+              response = _context.sent;
+
+              if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
+                _context.next = 7;
+                break;
+              }
+
+              context.commit('status/setApiStatus', true, {
+                root: true
+              });
+              return _context.abrupt("return", false);
+
+            case 7:
+              context.commit('status/setApiStatus', false, {
+                root: true
+              });
+
+              if (response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"]) {
+                context.commit('setCategoryErrorMessages', response.data.errors);
+              } else {
+                context.commit('error/setCode', response.status, {
+                  root: true
+                });
+              }
+
+            case 9:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+
+    function addCategory(_x, _x2) {
+      return _addCategory.apply(this, arguments);
+    }
+
+    return addCategory;
+  }(),
+  updateCategory: function () {
+    var _updateCategory = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(context, data) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              context.commit('status/setApiStatus', null, {
+                root: true
+              });
+              _context2.next = 3;
+              return axios.patch("/api/categories/".concat(data.id), data);
+
+            case 3:
+              response = _context2.sent;
+
+              if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["NO_CONTENT"])) {
+                _context2.next = 7;
+                break;
+              }
+
+              context.commit('status/setApiStatus', true, {
+                root: true
+              });
+              return _context2.abrupt("return", false);
+
+            case 7:
+              context.commit('status/setApiStatus', false, {
+                root: true
+              });
+
+              if (response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"]) {
+                context.commit('setCategoryErrorMessages', response.data.errors);
+              } else {
+                context.commit('error/setCode', response.status, {
+                  root: true
+                });
+              }
+
+            case 9:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    function updateCategory(_x3, _x4) {
+      return _updateCategory.apply(this, arguments);
+    }
+
+    return updateCategory;
+  }()
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
   mutations: mutations,
   actions: actions
 });
@@ -58045,7 +58333,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./auth */ "./resources/js/store/auth.js");
-/* harmony import */ var _error__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./error */ "./resources/js/store/error.js");
+/* harmony import */ var _category__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./category */ "./resources/js/store/category.js");
+/* harmony import */ var _word__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./word */ "./resources/js/store/word.js");
+/* harmony import */ var _word__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_word__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _status__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./status */ "./resources/js/store/status.js");
+/* harmony import */ var _error__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./error */ "./resources/js/store/error.js");
+
+
+
 
 
 
@@ -58054,10 +58349,49 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   modules: {
     auth: _auth__WEBPACK_IMPORTED_MODULE_2__["default"],
-    error: _error__WEBPACK_IMPORTED_MODULE_3__["default"]
+    category: _category__WEBPACK_IMPORTED_MODULE_3__["default"],
+    word: _word__WEBPACK_IMPORTED_MODULE_4___default.a,
+    status: _status__WEBPACK_IMPORTED_MODULE_5__["default"],
+    error: _error__WEBPACK_IMPORTED_MODULE_6__["default"]
   }
 });
 /* harmony default export */ __webpack_exports__["default"] = (store);
+
+/***/ }),
+
+/***/ "./resources/js/store/status.js":
+/*!**************************************!*\
+  !*** ./resources/js/store/status.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var state = {
+  apiStatus: null
+};
+var mutations = {
+  setApiStatus: function setApiStatus(state, status) {
+    state.apiStatus = status;
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/word.js":
+/*!************************************!*\
+  !*** ./resources/js/store/word.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
 
 /***/ }),
 
@@ -58065,7 +58399,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*!******************************!*\
   !*** ./resources/js/util.js ***!
   \******************************/
-/*! exports provided: getCookieValue, OK, CREATED, NOT_FOUND, UNPROCESSABLE_ENTITY, UNAUTHORIZED, INTERNAL_SERVER_ERROR */
+/*! exports provided: getCookieValue, OK, CREATED, NO_CONTENT, NOT_FOUND, UNPROCESSABLE_ENTITY, UNAUTHORIZED, INTERNAL_SERVER_ERROR */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -58073,6 +58407,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCookieValue", function() { return getCookieValue; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OK", function() { return OK; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CREATED", function() { return CREATED; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NO_CONTENT", function() { return NO_CONTENT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NOT_FOUND", function() { return NOT_FOUND; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNPROCESSABLE_ENTITY", function() { return UNPROCESSABLE_ENTITY; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNAUTHORIZED", function() { return UNAUTHORIZED; });
@@ -58110,6 +58445,7 @@ function getCookieValue(searchKey) {
 }
 var OK = 200;
 var CREATED = 201;
+var NO_CONTENT = 204;
 var NOT_FOUND = 404;
 var UNPROCESSABLE_ENTITY = 422;
 var UNAUTHORIZED = 419;

@@ -44,10 +44,10 @@
         <!-- registerErrors -->
         <div v-if="registerErrorMessages" class="text-danger">
           <ul v-if="registerErrorMessages.email">
-            <li v-for="msg in registerErrorMessages.name" :key="msg">{{ msg }}</li>
+            <li v-for="msg in registerErrorMessages.email" :key="msg">{{ msg }}</li>
           </ul>
           <ul v-if="registerErrorMessages.name">
-            <li v-for="msg in registerErrorMessages.email" :key="msg">{{ msg }}</li>
+            <li v-for="msg in registerErrorMessages.name" :key="msg">{{ msg }}</li>
           </ul>
           <ul v-if="registerErrorMessages.password">
             <li v-for="msg in registerErrorMessages.password" :key="msg">{{ msg }}</li>
@@ -102,7 +102,7 @@ export default {
   },
   computed:{
     apiStatus(){
-      return this.$store.state.auth.apiStatus
+      return this.$store.state.status.apiStatus
     },
     loginErrorMessages(){
       return this.$store.state.auth.loginErrorMessages
