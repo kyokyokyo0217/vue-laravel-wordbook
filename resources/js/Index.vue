@@ -6,9 +6,9 @@
         <span>Hello, {{username}}</span>
         <button class="btn btn-outline-secondary" @click="logout">Logout</button>
       </div>
-      <div v-else>
+      <!-- <div v-else>
         <router-link class="navbar-brand" to="/login">Login</router-link>
-      </div>
+      </div> -->
     </nav>
     <div class="container-fluid">
       <router-view></router-view>
@@ -30,7 +30,7 @@ export default {
       return this.$store.state.error.code
     },
     apiStatus(){
-      return this.$store.state.auth.apiStatus
+      return this.$store.state.status.apiStatus
     }
   },
   watch: {
@@ -43,7 +43,7 @@ export default {
           this.$store.commit('auth/setUser', null)
           this.$router.push('/login')
         }else if(val === NOT_FOUND){
-          this.$router.push('/not-found')
+          this.$router.push('/404')
         }
       },
       immediate: true

@@ -15,6 +15,16 @@
     <div class="card-body">
       <!-- login -->
       <div v-show="tab === 1">
+        <!-- loginErrors -->
+        <div v-if="loginErrorMessages" class="text-danger">
+          <ul v-if="loginErrorMessages.email">
+            <li v-for="msg in loginErrorMessages.email" :key="msg">{{ msg }}</li>
+          </ul>
+          <ul v-if="loginErrorMessages.password">
+            <li v-for="msg in loginErrorMessages.password" :key="msg">{{ msg }}</li>
+          </ul>
+        </div>
+        <!-- loginForm -->
         <form @submit.prevent="login">
           <div class="form-group">
             <label for="login-email">Email</label>
@@ -28,10 +38,25 @@
             <button type="submit" class="btn btn-primary">Submit</button>
           </div>
         </form>
-        Forgot Password?
       </div>
       <!-- register -->
       <div v-show="tab === 2">
+        <!-- registerErrors -->
+        <div v-if="registerErrorMessages" class="text-danger">
+          <ul v-if="registerErrorMessages.email">
+            <li v-for="msg in registerErrorMessages.email" :key="msg">{{ msg }}</li>
+          </ul>
+          <ul v-if="registerErrorMessages.name">
+            <li v-for="msg in registerErrorMessages.name" :key="msg">{{ msg }}</li>
+          </ul>
+          <ul v-if="registerErrorMessages.password">
+            <li v-for="msg in registerErrorMessages.password" :key="msg">{{ msg }}</li>
+          </ul>
+          <ul v-if="registerErrorMessages.password_confirmation">
+            <li v-for="msg in registerErrorMessages.password_confirmation" :key="msg">{{ msg }}</li>
+          </ul>
+        </div>
+        <!-- registerForm -->
         <form @submit.prevent="register">
           <div class="form-group">
             <label for="register-email">Email</label>
@@ -77,13 +102,19 @@ export default {
   },
   computed:{
     apiStatus(){
-      return this.$store.state.auth.apiStatus
+      return this.$store.state.status.apiStatus
+    },
+    loginErrorMessages(){
+      return this.$store.state.auth.loginErrorMessages
+    },
+    registerErrorMessages(){
+      return this.$store.state.auth.registerErrorMessages
     }
   },
   methods:{
     async register(){
       await this.$store.dispatch('auth/register', this.registerForm)
-      
+
       if(this.apiStatus){
         this.$router.push('/')
       }

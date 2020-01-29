@@ -20,7 +20,7 @@
 
           <!-- in case there is no word -->
           <div v-if="noWordsYet">
-            <h6 class="text-center pt-4">No Words For This Category Yet</h6>
+            <h6 class="text-center pt-4">No Words In This Category Yet</h6>
           </div>
 
           <div
@@ -33,7 +33,9 @@
                 <button
                   type="button"
                   class="btn btn-secondary btn-sm"
-                  @click="showEditForm = true;
+                  @click="
+                    showEditForm = true;
+                    showAddForm = false;
                     selectWord(word)"
                   :disabled="showEditForm && word === activeWord"
                 ><i class="fas fa-pen"></i>
@@ -42,6 +44,7 @@
                   type="button"
                   class="btn btn-secondary btn-sm"
                   @click="deleteWord(word.id)"
+                  :disabled="showEditForm"
                 ><i class="fas fa-trash-alt"></i>
                 </button>
               </div>
@@ -68,12 +71,14 @@ import AddWord from './AddWord';
       EditWord,
       AddWord
     },
+
     props: {
       activeCategory: {
         id: Number,
         name: String,
       }
     },
+
     data() {
       return {
         words: null,
@@ -93,27 +98,33 @@ import AddWord from './AddWord';
         immediate: true,
       }
     },
-    methods: {
-      getWords(){
-        axios
-          .get(`/api/categories/${this.activeCategory.id}/words`)
-          .then(response => {
-            this.words = response.data.data;
-            if(this.words.length === 0){
-              this.noWordsYet = true;
-            }else{
-              this.noWordsYet = false;
-            }
-          });
+
+    computed:{
+      apiStatus(){
+        return this.$store.state.status.apiStatus
       },
+    },
+
+    methods: {
       selectWord(word) {
         this.activeWord = word;
       },
+
+      async getWords(){
+        await this.$store.dispatch('word/getWords', this.activeCategory.id).then(response => {
+          if(this.apiStatus){
+            this.words = response.data.data;
+            this.noWordsYet = this.words.length === 0 ? true : false;
+          }
+        })
+      },
       //びみょう
-      deleteWord(id) {
-        axios
-          .delete(`/api/categories/${this.activeCategory.id}/words/${id}`, { data: { word_id: id } })
-        this.getWords();
+      async deleteWord(id) {
+        await this.$store.dispatch('word/deleteWord', {categoryId: this.activeCategory.id, wordId: id})
+
+        if(this.apiStatus){
+          this.getWords();
+        }
       }
     },
   };

@@ -9,21 +9,22 @@
               </div>
               <div class="text-right">
                 <button
-                  v-if="!showNewCategoryForm"
                   class="btn btn-secondary btn-sm-circle"
                   @click="showNewCategoryForm = true;"
+                  :disabled="showNewCategoryForm || toggleEdit"
                  ><i class="fas fa-plus"></i>
                 </button>
                   <button
-                    v-if="!toggled && !noCategoriesYet"
+                    v-if="!toggleEdit && !noCategoriesYet"
                     class="btn btn-secondary btn-sm btn-smaller"
-                    @click="toggled =! toggled"
+                    @click="toggleEdit = !toggleEdit"
+                    :disabled="showNewCategoryForm || toggleEdit"
                     ><i class="fas fa-wrench"></i>
                   </button>
                   <button
-                    v-if="toggled && !noCategoriesYet"
+                    v-if="toggleEdit && !noCategoriesYet"
                     class="btn btn-sm btn-outline-secondary btn-smaller"
-                    @click="toggled =! toggled"
+                    @click="toggleEdit =! toggleEdit; activeEditCategory = null"
                     ><i class="fas fa-times"></i>
                   </button>
               </div>
@@ -37,25 +38,32 @@
           <!-- add new category -->
           <div
             v-if="showNewCategoryForm"
-            class="list-group-item d-flex"
+            class="list-group-item"
            >
-           <input
-            type="text"
-            name="category"
-            class="form-control form-control-sm mr-3"
-            id="category"
-            v-model="newCategory"
-            v-on:keyup.enter="submit"
-            >
-            <button
-               class="btn btn-sm btn-outline-secondary btn-smaller"
-               @click="showNewCategoryForm = false;"
-               ><i class="fas fa-times"></i>
-            </button>
+           <div v-if="categoryErrorMessages" class="text-danger mx-auto">
+             <ul v-if="categoryErrorMessages.category_name" class="pl-2">
+               <li v-for="msg in categoryErrorMessages.category_name" :key="msg">{{ msg }}</li>
+             </ul>
+           </div>
+           <div class="d-flex">
+             <input
+              type="text"
+              name="category"
+              class="form-control form-control-sm mr-3"
+              id="category"
+              v-model="newCategory"
+              v-on:keyup.enter="submit"
+              >
+              <button
+                 class="btn btn-sm btn-outline-secondary btn-smaller"
+                 @click="showNewCategoryForm = false;"
+                 ><i class="fas fa-times"></i>
+              </button>
+            </div>
           </div>
 
           <!-- category-items -->
-          <div v-if="!toggled">
+          <div v-if="!toggleEdit">
             <div
               class="btn list-group-item list-group-item-action"
               @click="selectCategory(category)"
@@ -65,7 +73,7 @@
              >{{ category.name }}
             </div>
           </div>
-          <div v-if="toggled">
+          <div v-if="toggleEdit">
             <div
               class="list-group-item text-left"
               v-for="(category, index) in categories"
@@ -89,21 +97,28 @@
                  </button>
                </div>
              </div>
-                             <!-- 保存しなくても見た目的に変更されてしまう -->
-             <div v-if="activeEditCategory === category" class="d-flex justify-content-between">
-               <input
-                type="text"
-                name="category"
-                class="form-control form-control-sm mr-3"
-                id="category"
-                v-model="activeEditCategory.name"
-                v-on:keyup.enter="update"
-                >
-                <button
-                   class="btn btn-sm btn-outline-secondary btn-smaller"
-                   @click="activeEditCategory = null"
-                   ><i class="fas fa-times"></i>
-                </button>
+            <!-- 保存しなくても見た目的に変更されてしまう -->
+             <div v-if="activeEditCategory === category">
+               <div v-if="categoryErrorMessages" class="text-danger mx-auto">
+                 <ul v-if="categoryErrorMessages.name" class="pl-2">
+                   <li v-for="msg in categoryErrorMessages.name" :key="msg">{{ msg }}</li>
+                 </ul>
+               </div>
+               <div class="d-flex">
+                 <input
+                  type="text"
+                  name="category"
+                  class="form-control form-control-sm mr-3"
+                  id="category"
+                  v-model="activeEditCategory.name"
+                  v-on:keyup.enter="update"
+                  >
+                  <button
+                     class="btn btn-sm btn-outline-secondary btn-smaller"
+                     @click="activeEditCategory = null"
+                     ><i class="fas fa-times"></i>
+                  </button>
+                </div>
              </div>
             </div>
           </div>
@@ -116,11 +131,13 @@
 </template>
 <script>
   import WordList from "./WordList";
+  import { OK, CREATED, UNPROCESSABLE_ENTITY } from '../util'
 
   export default {
     components: {
       WordList
     },
+
     data() {
       return {
         categories: null,
@@ -129,55 +146,72 @@
         showWordList: false,
         showNewCategoryForm: false,
         newCategory: null,
-        toggled: false,
+        toggleEdit: false,
         // びみょう
         noCategoriesYet: false,
       };
     },
-    created() {
-        this.getCategories();
+
+    computed:{
+      apiStatus(){
+        return this.$store.state.status.apiStatus
+      },
+      categoryErrorMessages(){
+        return this.$store.state.category.categoryErrorMessages
+      },
     },
+
+    created() {
+      this.getCategories();
+    },
+
     methods: {
       selectCategory(category) {
         // この行が無駄
         this.showWordList = true;
         this.activeCategory = category;
       },
+
       selectEditCategory(category){
         this.activeEditCategory = category;
       },
-      getCategories(){
-        axios.get("/api/categories").then(response => {
-          this.categories = response.data.data;
-          if(this.categories.length === 0){
-            this.noCategoriesYet = true;
-          }else{
-            this.noCategoriesYet = false;
+
+      async getCategories(){
+        await this.$store.dispatch('category/getCategories').then(response => {
+          if(this.apiStatus){
+            this.categories = response.data.data;
+            this.noCategoriesYet = this.categories.length === 0 ? true : false;
           }
         });
       },
-      submit(){
-        axios
-          .post("/api/categories", {category_name: this.newCategory});
-        this.getCategories();
-        this.showNewCategoryForm = false;
-        this.newCategory = null;
 
+      async submit(){
+        await this.$store.dispatch('category/addCategory', this.newCategory);
+
+        if(this.apiStatus){
+          this.showNewCategoryForm = false;
+          this.newCategory = null;
+          this.getCategories();
+        }
       },
-      update(){
-        axios
-          .patch(`/api/categories/${this.activeEditCategory.id}`, this.activeEditCategory);
-        this.getCategories();
-        this.activeEditCategory = null;
+
+      async update(){
+        await this.$store.dispatch('category/updateCategory', this.activeEditCategory);
+
+        if(this.apiStatus){
+          this.activeEditCategory = null;
+          this.getCategories();
+        }
       },
-      deleteCategory(id){
-        axios
-          .delete(`/api/categories/${id}`, { data: { category_id: id } });
-        this.getCategories();
+
+      async deleteCategory(id){
+        await this.$store.dispatch('category/deleteCategory', id);
+
+        if(this.apiStatus){
+          this.getCategories();
+        }
       },
     },
-    computed: {
-    }
   };
 </script>
 <style scoped>

@@ -1889,7 +1889,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return this.$store.state.error.code;
     },
     apiStatus: function apiStatus() {
-      return this.$store.state.auth.apiStatus;
+      return this.$store.state.status.apiStatus;
     }
   },
   watch: {
@@ -1928,7 +1928,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 case 11:
                   if (val === _util__WEBPACK_IMPORTED_MODULE_1__["NOT_FOUND"]) {
-                    this.$router.push('/not-found');
+                    this.$router.push('/404');
                   }
 
                 case 12:
@@ -2065,6 +2065,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2083,7 +2108,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   computed: {
     apiStatus: function apiStatus() {
-      return this.$store.state.auth.apiStatus;
+      return this.$store.state.status.apiStatus;
+    },
+    loginErrorMessages: function loginErrorMessages() {
+      return this.$store.state.auth.loginErrorMessages;
+    },
+    registerErrorMessages: function registerErrorMessages() {
+      return this.$store.state.auth.registerErrorMessages;
     }
   },
   methods: {
@@ -2161,6 +2192,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2237,6 +2292,14 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
+  computed: {
+    apiStatus: function apiStatus() {
+      return this.$store.state.status.apiStatus;
+    },
+    wordErrorMessages: function wordErrorMessages() {
+      return this.$store.state.word.wordErrorMessages;
+    }
+  },
   watch: {
     activeCategory: {
       handler: function handler(val, oldVal) {
@@ -2249,12 +2312,42 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     hideAddForm: function hideAddForm() {
       this.$emit('input');
+      this.$store.commit('word/setWordErrorMessages', null);
     },
-    submit: function submit() {
-      axios.post("/api/categories/".concat(this.activeCategory.id, "/words"), this.word);
-      this.hideAddForm();
-      this.$emit('getWords');
-    }
+    submit: function () {
+      var _submit = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return this.$store.dispatch('word/addWord', {
+                  categoryId: this.activeCategory.id,
+                  word: this.word
+                });
+
+              case 2:
+                if (this.apiStatus) {
+                  this.hideAddForm();
+                  this.$emit('getWords');
+                }
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function submit() {
+        return _submit.apply(this, arguments);
+      }
+
+      return submit;
+    }()
   }
 });
 
@@ -2269,7 +2362,31 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _WordList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./WordList */ "./resources/js/components/WordList.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _WordList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./WordList */ "./resources/js/components/WordList.vue");
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2387,9 +2504,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    WordList: _WordList__WEBPACK_IMPORTED_MODULE_0__["default"]
+    WordList: _WordList__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
@@ -2399,10 +2517,18 @@ __webpack_require__.r(__webpack_exports__);
       showWordList: false,
       showNewCategoryForm: false,
       newCategory: null,
-      toggled: false,
+      toggleEdit: false,
       // びみょう
       noCategoriesYet: false
     };
+  },
+  computed: {
+    apiStatus: function apiStatus() {
+      return this.$store.state.status.apiStatus;
+    },
+    categoryErrorMessages: function categoryErrorMessages() {
+      return this.$store.state.category.categoryErrorMessages;
+    }
   },
   created: function created() {
     this.getCategories();
@@ -2416,42 +2542,132 @@ __webpack_require__.r(__webpack_exports__);
     selectEditCategory: function selectEditCategory(category) {
       this.activeEditCategory = category;
     },
-    getCategories: function getCategories() {
-      var _this = this;
+    getCategories: function () {
+      var _getCategories = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var _this = this;
 
-      axios.get("/api/categories").then(function (response) {
-        _this.categories = response.data.data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return this.$store.dispatch('category/getCategories').then(function (response) {
+                  if (_this.apiStatus) {
+                    _this.categories = response.data.data;
+                    _this.noCategoriesYet = _this.categories.length === 0 ? true : false;
+                  }
+                });
 
-        if (_this.categories.length === 0) {
-          _this.noCategoriesYet = true;
-        } else {
-          _this.noCategoriesYet = false;
-        }
-      });
-    },
-    submit: function submit() {
-      axios.post("/api/categories", {
-        category_name: this.newCategory
-      });
-      this.getCategories();
-      this.showNewCategoryForm = false;
-      this.newCategory = null;
-    },
-    update: function update() {
-      axios.patch("/api/categories/".concat(this.activeEditCategory.id), this.activeEditCategory);
-      this.getCategories();
-      this.activeEditCategory = null;
-    },
-    deleteCategory: function deleteCategory(id) {
-      axios["delete"]("/api/categories/".concat(id), {
-        data: {
-          category_id: id
-        }
-      });
-      this.getCategories();
-    }
-  },
-  computed: {}
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getCategories() {
+        return _getCategories.apply(this, arguments);
+      }
+
+      return getCategories;
+    }(),
+    submit: function () {
+      var _submit = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.$store.dispatch('category/addCategory', this.newCategory);
+
+              case 2:
+                if (this.apiStatus) {
+                  this.showNewCategoryForm = false;
+                  this.newCategory = null;
+                  this.getCategories();
+                }
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function submit() {
+        return _submit.apply(this, arguments);
+      }
+
+      return submit;
+    }(),
+    update: function () {
+      var _update = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return this.$store.dispatch('category/updateCategory', this.activeEditCategory);
+
+              case 2:
+                if (this.apiStatus) {
+                  this.activeEditCategory = null;
+                  this.getCategories();
+                }
+
+              case 3:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function update() {
+        return _update.apply(this, arguments);
+      }
+
+      return update;
+    }(),
+    deleteCategory: function () {
+      var _deleteCategory = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(id) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return this.$store.dispatch('category/deleteCategory', id);
+
+              case 2:
+                if (this.apiStatus) {
+                  this.getCategories();
+                }
+
+              case 3:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function deleteCategory(_x) {
+        return _deleteCategory.apply(this, arguments);
+      }
+
+      return deleteCategory;
+    }()
+  }
 });
 
 /***/ }),
@@ -2465,6 +2681,30 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2534,7 +2774,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   data: function data() {
-    // propsをdataに代入したい！！！
     return {
       word: {
         name: '',
@@ -2544,6 +2783,14 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
+  computed: {
+    apiStatus: function apiStatus() {
+      return this.$store.state.status.apiStatus;
+    },
+    wordErrorMessages: function wordErrorMessages() {
+      return this.$store.state.word.wordErrorMessages;
+    }
+  },
   // computedの方が適切？
   watch: {
     activeWord: {
@@ -2552,6 +2799,7 @@ __webpack_require__.r(__webpack_exports__);
         this.word.definition = this.activeWord.definition;
         this.word.memo = this.activeWord.memo;
         this.word.url = this.activeWord.url;
+        this.$store.commit('word/setWordErrorMessages', null);
       },
       immediate: true,
       deep: true
@@ -2561,11 +2809,41 @@ __webpack_require__.r(__webpack_exports__);
     hideEditForm: function hideEditForm() {
       this.$emit('input');
     },
-    submit: function submit() {
-      axios.patch("/api/categories/".concat(this.activeWord.categoryId, "/words/").concat(this.activeWord.id), this.word);
-      this.hideEditForm();
-      this.$emit('getWords');
-    }
+    submit: function () {
+      var _submit = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return this.$store.dispatch('word/updateWord', {
+                  categoryId: this.activeWord.categoryId,
+                  wordId: this.activeWord.id,
+                  word: this.word
+                });
+
+              case 2:
+                if (this.apiStatus) {
+                  this.hideEditForm();
+                  this.$emit('getWords');
+                }
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function submit() {
+        return _submit.apply(this, arguments);
+      }
+
+      return submit;
+    }()
   }
 });
 
@@ -2580,8 +2858,19 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _EditWord__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditWord */ "./resources/js/components/EditWord.vue");
-/* harmony import */ var _AddWord__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddWord */ "./resources/js/components/AddWord.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _EditWord__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditWord */ "./resources/js/components/EditWord.vue");
+/* harmony import */ var _AddWord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AddWord */ "./resources/js/components/AddWord.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
 //
 //
 //
@@ -2647,8 +2936,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    EditWord: _EditWord__WEBPACK_IMPORTED_MODULE_0__["default"],
-    AddWord: _AddWord__WEBPACK_IMPORTED_MODULE_1__["default"]
+    EditWord: _EditWord__WEBPACK_IMPORTED_MODULE_1__["default"],
+    AddWord: _AddWord__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   props: {
     activeCategory: {
@@ -2675,32 +2964,81 @@ __webpack_require__.r(__webpack_exports__);
       immediate: true
     }
   },
+  computed: {
+    apiStatus: function apiStatus() {
+      return this.$store.state.status.apiStatus;
+    }
+  },
   methods: {
-    getWords: function getWords() {
-      var _this = this;
-
-      axios.get("/api/categories/".concat(this.activeCategory.id, "/words")).then(function (response) {
-        _this.words = response.data.data;
-
-        if (_this.words.length === 0) {
-          _this.noWordsYet = true;
-        } else {
-          _this.noWordsYet = false;
-        }
-      });
-    },
     selectWord: function selectWord(word) {
       this.activeWord = word;
     },
+    getWords: function () {
+      var _getWords = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var _this = this;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return this.$store.dispatch('word/getWords', this.activeCategory.id).then(function (response) {
+                  if (_this.apiStatus) {
+                    _this.words = response.data.data;
+                    _this.noWordsYet = _this.words.length === 0 ? true : false;
+                  }
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getWords() {
+        return _getWords.apply(this, arguments);
+      }
+
+      return getWords;
+    }(),
     //びみょう
-    deleteWord: function deleteWord(id) {
-      axios["delete"]("/api/categories/".concat(this.activeCategory.id, "/words/").concat(id), {
-        data: {
-          word_id: id
-        }
-      });
-      this.getWords();
-    }
+    deleteWord: function () {
+      var _deleteWord = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(id) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.$store.dispatch('word/deleteWord', {
+                  categoryId: this.activeCategory.id,
+                  wordId: id
+                });
+
+              case 2:
+                if (this.apiStatus) {
+                  this.getWords();
+                }
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function deleteWord(_x) {
+        return _deleteWord.apply(this, arguments);
+      }
+
+      return deleteWord;
+    }()
   }
 });
 
@@ -39553,17 +39891,7 @@ var render = function() {
                 [_vm._v("Logout")]
               )
             ])
-          : _c(
-              "div",
-              [
-                _c(
-                  "router-link",
-                  { staticClass: "navbar-brand", attrs: { to: "/login" } },
-                  [_vm._v("Login")]
-                )
-              ],
-              1
-            )
+          : _vm._e()
       ],
       1
     ),
@@ -39638,6 +39966,30 @@ var render = function() {
           ]
         },
         [
+          _vm.loginErrorMessages
+            ? _c("div", { staticClass: "text-danger" }, [
+                _vm.loginErrorMessages.email
+                  ? _c(
+                      "ul",
+                      _vm._l(_vm.loginErrorMessages.email, function(msg) {
+                        return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                      }),
+                      0
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.loginErrorMessages.password
+                  ? _c(
+                      "ul",
+                      _vm._l(_vm.loginErrorMessages.password, function(msg) {
+                        return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                      }),
+                      0
+                    )
+                  : _vm._e()
+              ])
+            : _vm._e(),
+          _vm._v(" "),
           _c(
             "form",
             {
@@ -39707,8 +40059,7 @@ var render = function() {
               _vm._v(" "),
               _vm._m(0)
             ]
-          ),
-          _vm._v("\n      Forgot Password?\n    ")
+          )
         ]
       ),
       _vm._v(" "),
@@ -39725,6 +40076,53 @@ var render = function() {
           ]
         },
         [
+          _vm.registerErrorMessages
+            ? _c("div", { staticClass: "text-danger" }, [
+                _vm.registerErrorMessages.email
+                  ? _c(
+                      "ul",
+                      _vm._l(_vm.registerErrorMessages.email, function(msg) {
+                        return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                      }),
+                      0
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.registerErrorMessages.name
+                  ? _c(
+                      "ul",
+                      _vm._l(_vm.registerErrorMessages.name, function(msg) {
+                        return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                      }),
+                      0
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.registerErrorMessages.password
+                  ? _c(
+                      "ul",
+                      _vm._l(_vm.registerErrorMessages.password, function(msg) {
+                        return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                      }),
+                      0
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.registerErrorMessages.password_confirmation
+                  ? _c(
+                      "ul",
+                      _vm._l(
+                        _vm.registerErrorMessages.password_confirmation,
+                        function(msg) {
+                          return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                        }
+                      ),
+                      0
+                    )
+                  : _vm._e()
+              ])
+            : _vm._e(),
+          _vm._v(" "),
           _c(
             "form",
             {
@@ -39934,6 +40332,50 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
+    _vm.wordErrorMessages
+      ? _c("div", { staticClass: "text-danger" }, [
+          _vm.wordErrorMessages.name
+            ? _c(
+                "ul",
+                _vm._l(_vm.wordErrorMessages.name, function(msg) {
+                  return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                }),
+                0
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.wordErrorMessages.definition
+            ? _c(
+                "ul",
+                _vm._l(_vm.wordErrorMessages.definition, function(msg) {
+                  return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                }),
+                0
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.wordErrorMessages.memo
+            ? _c(
+                "ul",
+                _vm._l(_vm.wordErrorMessages.memo, function(msg) {
+                  return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                }),
+                0
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.wordErrorMessages.url
+            ? _c(
+                "ul",
+                _vm._l(_vm.wordErrorMessages.url, function(msg) {
+                  return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                }),
+                0
+              )
+            : _vm._e()
+        ])
+      : _vm._e(),
+    _vm._v(" "),
     _c("div", { staticClass: "form-group mt-4" }, [
       _c("label", { attrs: { for: "word" } }, [_vm._v("Word")]),
       _vm._v(" "),
@@ -40083,29 +40525,33 @@ var render = function() {
             _vm._m(0),
             _vm._v(" "),
             _c("div", { staticClass: "text-right" }, [
-              !_vm.showNewCategoryForm
-                ? _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-secondary btn-sm-circle",
-                      on: {
-                        click: function($event) {
-                          _vm.showNewCategoryForm = true
-                        }
-                      }
-                    },
-                    [_c("i", { staticClass: "fas fa-plus" })]
-                  )
-                : _vm._e(),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary btn-sm-circle",
+                  attrs: {
+                    disabled: _vm.showNewCategoryForm || _vm.toggleEdit
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.showNewCategoryForm = true
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fas fa-plus" })]
+              ),
               _vm._v(" "),
-              !_vm.toggled && !_vm.noCategoriesYet
+              !_vm.toggleEdit && !_vm.noCategoriesYet
                 ? _c(
                     "button",
                     {
                       staticClass: "btn btn-secondary btn-sm btn-smaller",
+                      attrs: {
+                        disabled: _vm.showNewCategoryForm || _vm.toggleEdit
+                      },
                       on: {
                         click: function($event) {
-                          _vm.toggled = !_vm.toggled
+                          _vm.toggleEdit = !_vm.toggleEdit
                         }
                       }
                     },
@@ -40113,7 +40559,7 @@ var render = function() {
                   )
                 : _vm._e(),
               _vm._v(" "),
-              _vm.toggled && !_vm.noCategoriesYet
+              _vm.toggleEdit && !_vm.noCategoriesYet
                 ? _c(
                     "button",
                     {
@@ -40121,7 +40567,8 @@ var render = function() {
                         "btn btn-sm btn-outline-secondary btn-smaller",
                       on: {
                         click: function($event) {
-                          _vm.toggled = !_vm.toggled
+                          _vm.toggleEdit = !_vm.toggleEdit
+                          _vm.activeEditCategory = null
                         }
                       }
                     },
@@ -40141,54 +40588,76 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _vm.showNewCategoryForm
-          ? _c("div", { staticClass: "list-group-item d-flex" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.newCategory,
-                    expression: "newCategory"
-                  }
-                ],
-                staticClass: "form-control form-control-sm mr-3",
-                attrs: { type: "text", name: "category", id: "category" },
-                domProps: { value: _vm.newCategory },
-                on: {
-                  keyup: function($event) {
-                    if (
-                      !$event.type.indexOf("key") &&
-                      _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                    ) {
-                      return null
-                    }
-                    return _vm.submit($event)
-                  },
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.newCategory = $event.target.value
-                  }
-                }
-              }),
+          ? _c("div", { staticClass: "list-group-item" }, [
+              _vm.categoryErrorMessages
+                ? _c("div", { staticClass: "text-danger mx-auto" }, [
+                    _vm.categoryErrorMessages.category_name
+                      ? _c(
+                          "ul",
+                          { staticClass: "pl-2" },
+                          _vm._l(
+                            _vm.categoryErrorMessages.category_name,
+                            function(msg) {
+                              return _c("li", { key: msg }, [
+                                _vm._v(_vm._s(msg))
+                              ])
+                            }
+                          ),
+                          0
+                        )
+                      : _vm._e()
+                  ])
+                : _vm._e(),
               _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-sm btn-outline-secondary btn-smaller",
+              _c("div", { staticClass: "d-flex" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.newCategory,
+                      expression: "newCategory"
+                    }
+                  ],
+                  staticClass: "form-control form-control-sm mr-3",
+                  attrs: { type: "text", name: "category", id: "category" },
+                  domProps: { value: _vm.newCategory },
                   on: {
-                    click: function($event) {
-                      _vm.showNewCategoryForm = false
+                    keyup: function($event) {
+                      if (
+                        !$event.type.indexOf("key") &&
+                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                      ) {
+                        return null
+                      }
+                      return _vm.submit($event)
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.newCategory = $event.target.value
                     }
                   }
-                },
-                [_c("i", { staticClass: "fas fa-times" })]
-              )
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-sm btn-outline-secondary btn-smaller",
+                    on: {
+                      click: function($event) {
+                        _vm.showNewCategoryForm = false
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "fas fa-times" })]
+                )
+              ])
             ])
           : _vm._e(),
         _vm._v(" "),
-        !_vm.toggled
+        !_vm.toggleEdit
           ? _c(
               "div",
               _vm._l(_vm.categories, function(category, index) {
@@ -40211,7 +40680,7 @@ var render = function() {
             )
           : _vm._e(),
         _vm._v(" "),
-        _vm.toggled
+        _vm.toggleEdit
           ? _c(
               "div",
               _vm._l(_vm.categories, function(category, index) {
@@ -40269,10 +40738,32 @@ var render = function() {
                       : _vm._e(),
                     _vm._v(" "),
                     _vm.activeEditCategory === category
-                      ? _c(
-                          "div",
-                          { staticClass: "d-flex justify-content-between" },
-                          [
+                      ? _c("div", [
+                          _vm.categoryErrorMessages
+                            ? _c(
+                                "div",
+                                { staticClass: "text-danger mx-auto" },
+                                [
+                                  _vm.categoryErrorMessages.name
+                                    ? _c(
+                                        "ul",
+                                        { staticClass: "pl-2" },
+                                        _vm._l(
+                                          _vm.categoryErrorMessages.name,
+                                          function(msg) {
+                                            return _c("li", { key: msg }, [
+                                              _vm._v(_vm._s(msg))
+                                            ])
+                                          }
+                                        ),
+                                        0
+                                      )
+                                    : _vm._e()
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "d-flex" }, [
                             _c("input", {
                               directives: [
                                 {
@@ -40331,8 +40822,8 @@ var render = function() {
                               },
                               [_c("i", { staticClass: "fas fa-times" })]
                             )
-                          ]
-                        )
+                          ])
+                        ])
                       : _vm._e()
                   ]
                 )
@@ -40412,6 +40903,50 @@ var render = function() {
         )
       ])
     ]),
+    _vm._v(" "),
+    _vm.wordErrorMessages
+      ? _c("div", { staticClass: "text-danger" }, [
+          _vm.wordErrorMessages.name
+            ? _c(
+                "ul",
+                _vm._l(_vm.wordErrorMessages.name, function(msg) {
+                  return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                }),
+                0
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.wordErrorMessages.definition
+            ? _c(
+                "ul",
+                _vm._l(_vm.wordErrorMessages.definition, function(msg) {
+                  return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                }),
+                0
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.wordErrorMessages.memo
+            ? _c(
+                "ul",
+                _vm._l(_vm.wordErrorMessages.memo, function(msg) {
+                  return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                }),
+                0
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.wordErrorMessages.url
+            ? _c(
+                "ul",
+                _vm._l(_vm.wordErrorMessages.url, function(msg) {
+                  return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                }),
+                0
+              )
+            : _vm._e()
+        ])
+      : _vm._e(),
     _vm._v(" "),
     _c("div", { staticClass: "form-group mt-4" }, [
       _c("label", { attrs: { for: "word" } }, [_vm._v("Word")]),
@@ -40587,7 +41122,7 @@ var render = function() {
             _vm.noWordsYet
               ? _c("div", [
                   _c("h6", { staticClass: "text-center pt-4" }, [
-                    _vm._v("No Words For This Category Yet")
+                    _vm._v("No Words In This Category Yet")
                   ])
                 ])
               : _vm._e(),
@@ -40611,6 +41146,7 @@ var render = function() {
                         on: {
                           click: function($event) {
                             _vm.showEditForm = true
+                            _vm.showAddForm = false
                             _vm.selectWord(word)
                           }
                         }
@@ -40622,7 +41158,7 @@ var render = function() {
                       "button",
                       {
                         staticClass: "btn btn-secondary btn-sm",
-                        attrs: { type: "button" },
+                        attrs: { type: "button", disabled: _vm.showEditForm },
                         on: {
                           click: function($event) {
                             return _vm.deleteWord(word.id)
@@ -57671,7 +58207,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var state = {
   user: null,
-  apiStatus: null
+  loginErrorMessages: null,
+  registerErrorMessages: null
 };
 var getters = {
   check: function check(state) {
@@ -57685,8 +58222,11 @@ var mutations = {
   setUser: function setUser(state, user) {
     state.user = user;
   },
-  setApiStatus: function setApiStatus(state, status) {
-    state.apiStatus = status;
+  setLoginErrorMessages: function setLoginErrorMessages(state, messages) {
+    state.loginErrorMessages = messages;
+  },
+  setRegisterErrorMessages: function setRegisterErrorMessages(state, messages) {
+    state.registerErrorMessages = messages;
   }
 };
 var actions = {
@@ -57700,7 +58240,9 @@ var actions = {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              context.commit('setApiStatus', null);
+              context.commit('status/setApiStatus', null, {
+                root: true
+              });
               _context.next = 3;
               return axios.post('/api/register', data);
 
@@ -57712,15 +58254,24 @@ var actions = {
                 break;
               }
 
-              context.commit('setApiStatus', true);
+              context.commit('status/setApiStatus', true, {
+                root: true
+              });
               context.commit('setUser', response.data);
               return _context.abrupt("return", false);
 
             case 8:
-              context.commit('setApiStatus', false);
-              context.commit('error/setCode', response.status, {
+              context.commit('status/setApiStatus', false, {
                 root: true
               });
+
+              if (response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"]) {
+                context.commit('setRegisterErrorMessages', response.data.errors);
+              } else {
+                context.commit('error/setCode', response.status, {
+                  root: true
+                });
+              }
 
             case 10:
             case "end":
@@ -57746,7 +58297,9 @@ var actions = {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              context.commit('setApiStatus', null);
+              context.commit('status/setApiStatus', null, {
+                root: true
+              });
               _context2.next = 3;
               return axios.post('/api/login', data);
 
@@ -57758,15 +58311,24 @@ var actions = {
                 break;
               }
 
-              context.commit('setApiStatus', true);
+              context.commit('status/setApiStatus', true, {
+                root: true
+              });
               context.commit('setUser', response.data);
               return _context2.abrupt("return", false);
 
             case 8:
-              context.commit('setApiStatus', false);
-              context.commit('error/setCode', response.status, {
+              context.commit('status/setApiStatus', false, {
                 root: true
               });
+
+              if (response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"]) {
+                context.commit('setLoginErrorMessages', response.data.errors);
+              } else {
+                context.commit('error/setCode', response.status, {
+                  root: true
+                });
+              }
 
             case 10:
             case "end":
@@ -57792,7 +58354,9 @@ var actions = {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              context.commit('setApiStatus', null);
+              context.commit('status/setApiStatus', null, {
+                root: true
+              });
               _context3.next = 3;
               return axios.post('/api/logout');
 
@@ -57804,12 +58368,16 @@ var actions = {
                 break;
               }
 
-              context.commit('setApiStatus', true);
+              context.commit('status/setApiStatus', true, {
+                root: true
+              });
               context.commit('setUser', null);
               return _context3.abrupt("return", false);
 
             case 8:
-              context.commit('setApiStatus', false);
+              context.commit('status/setApiStatus', false, {
+                root: true
+              });
               context.commit('error/setCode', response.status, {
                 root: true
               });
@@ -57838,7 +58406,9 @@ var actions = {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              context.commit('setApiStatus', null);
+              context.commit('status/setApiStatus', null, {
+                root: true
+              });
               _context4.next = 3;
               return axios.get('/api/user');
 
@@ -57851,12 +58421,16 @@ var actions = {
                 break;
               }
 
-              context.commit('setApiStatus', true);
+              context.commit('status/setApiStatus', true, {
+                root: true
+              });
               context.commit('setUser', user);
               return _context4.abrupt("return", false);
 
             case 9:
-              context.commit('setApiStatus', false);
+              context.commit('status/setApiStatus', false, {
+                root: true
+              });
               context.commit('error/setCode', response.status, {
                 root: true
               });
@@ -57880,6 +58454,260 @@ var actions = {
   namespaced: true,
   state: state,
   getters: getters,
+  mutations: mutations,
+  actions: actions
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/category.js":
+/*!****************************************!*\
+  !*** ./resources/js/store/category.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+var state = {
+  categoryErrorMessages: null
+};
+var mutations = {
+  setCategoryErrorMessages: function setCategoryErrorMessages(state, messages) {
+    state.categoryErrorMessages = messages;
+  }
+};
+var actions = {
+  getCategories: function () {
+    var _getCategories = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(context) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              context.commit('status/setApiStatus', null, {
+                root: true
+              });
+              _context.next = 3;
+              return axios.get("/api/categories");
+
+            case 3:
+              response = _context.sent;
+
+              if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                _context.next = 9;
+                break;
+              }
+
+              context.commit('status/setApiStatus', true, {
+                root: true
+              });
+              return _context.abrupt("return", response);
+
+            case 9:
+              context.commit('status/setApiStatus', false, {
+                root: true
+              });
+              context.commit('error/setCode', response.status, {
+                root: true
+              });
+
+            case 11:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+
+    function getCategories(_x) {
+      return _getCategories.apply(this, arguments);
+    }
+
+    return getCategories;
+  }(),
+  addCategory: function () {
+    var _addCategory = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(context, data) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              context.commit('status/setApiStatus', null, {
+                root: true
+              });
+              _context2.next = 3;
+              return axios.post('/api/categories', {
+                category_name: data
+              });
+
+            case 3:
+              response = _context2.sent;
+
+              if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
+                _context2.next = 7;
+                break;
+              }
+
+              context.commit('status/setApiStatus', true, {
+                root: true
+              });
+              return _context2.abrupt("return", false);
+
+            case 7:
+              context.commit('status/setApiStatus', false, {
+                root: true
+              });
+
+              if (response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"]) {
+                context.commit('setCategoryErrorMessages', response.data.errors);
+              } else {
+                context.commit('error/setCode', response.status, {
+                  root: true
+                });
+              }
+
+            case 9:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    function addCategory(_x2, _x3) {
+      return _addCategory.apply(this, arguments);
+    }
+
+    return addCategory;
+  }(),
+  updateCategory: function () {
+    var _updateCategory = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(context, data) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              context.commit('status/setApiStatus', null, {
+                root: true
+              });
+              _context3.next = 3;
+              return axios.patch("/api/categories/".concat(data.id), data);
+
+            case 3:
+              response = _context3.sent;
+
+              if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["NO_CONTENT"])) {
+                _context3.next = 7;
+                break;
+              }
+
+              context.commit('status/setApiStatus', true, {
+                root: true
+              });
+              return _context3.abrupt("return", false);
+
+            case 7:
+              context.commit('status/setApiStatus', false, {
+                root: true
+              });
+
+              if (response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"]) {
+                context.commit('setCategoryErrorMessages', response.data.errors);
+              } else {
+                context.commit('error/setCode', response.status, {
+                  root: true
+                });
+              }
+
+            case 9:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    function updateCategory(_x4, _x5) {
+      return _updateCategory.apply(this, arguments);
+    }
+
+    return updateCategory;
+  }(),
+  deleteCategory: function () {
+    var _deleteCategory = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(context, id) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              context.commit('status/setApiStatus', null, {
+                root: true
+              });
+              _context4.next = 3;
+              return axios["delete"]("/api/categories/".concat(id), {
+                data: {
+                  category_id: id
+                }
+              });
+
+            case 3:
+              response = _context4.sent;
+
+              if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["NO_CONTENT"])) {
+                _context4.next = 9;
+                break;
+              }
+
+              context.commit('status/setApiStatus', true, {
+                root: true
+              });
+              return _context4.abrupt("return", false);
+
+            case 9:
+              context.commit('status/setApiStatus', false, {
+                root: true
+              });
+              context.commit('error/setCode', response.status, {
+                root: true
+              });
+
+            case 11:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }));
+
+    function deleteCategory(_x6, _x7) {
+      return _deleteCategory.apply(this, arguments);
+    }
+
+    return deleteCategory;
+  }()
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
   mutations: mutations,
   actions: actions
 });
@@ -57924,7 +58752,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./auth */ "./resources/js/store/auth.js");
-/* harmony import */ var _error__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./error */ "./resources/js/store/error.js");
+/* harmony import */ var _category__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./category */ "./resources/js/store/category.js");
+/* harmony import */ var _word__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./word */ "./resources/js/store/word.js");
+/* harmony import */ var _status__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./status */ "./resources/js/store/status.js");
+/* harmony import */ var _error__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./error */ "./resources/js/store/error.js");
+
+
+
 
 
 
@@ -57933,10 +58767,290 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   modules: {
     auth: _auth__WEBPACK_IMPORTED_MODULE_2__["default"],
-    error: _error__WEBPACK_IMPORTED_MODULE_3__["default"]
+    category: _category__WEBPACK_IMPORTED_MODULE_3__["default"],
+    word: _word__WEBPACK_IMPORTED_MODULE_4__["default"],
+    status: _status__WEBPACK_IMPORTED_MODULE_5__["default"],
+    error: _error__WEBPACK_IMPORTED_MODULE_6__["default"]
   }
 });
 /* harmony default export */ __webpack_exports__["default"] = (store);
+
+/***/ }),
+
+/***/ "./resources/js/store/status.js":
+/*!**************************************!*\
+  !*** ./resources/js/store/status.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var state = {
+  apiStatus: null
+};
+var mutations = {
+  setApiStatus: function setApiStatus(state, status) {
+    state.apiStatus = status;
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/word.js":
+/*!************************************!*\
+  !*** ./resources/js/store/word.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+var state = {
+  wordErrorMessages: null
+};
+var mutations = {
+  setWordErrorMessages: function setWordErrorMessages(state, messages) {
+    state.wordErrorMessages = messages;
+  }
+};
+var actions = {
+  getWords: function () {
+    var _getWords = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(context, id) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              context.commit('status/setApiStatus', null, {
+                root: true
+              });
+              _context.next = 3;
+              return axios.get("/api/categories/".concat(id, "/words"));
+
+            case 3:
+              response = _context.sent;
+
+              if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                _context.next = 9;
+                break;
+              }
+
+              context.commit('status/setApiStatus', true, {
+                root: true
+              });
+              return _context.abrupt("return", response);
+
+            case 9:
+              context.commit('status/setApiStatus', false, {
+                root: true
+              });
+              context.commit('error/setCode', response.status, {
+                root: true
+              });
+
+            case 11:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+
+    function getWords(_x, _x2) {
+      return _getWords.apply(this, arguments);
+    }
+
+    return getWords;
+  }(),
+  addWord: function () {
+    var _addWord = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(context, data) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              context.commit('status/setApiStatus', null, {
+                root: true
+              });
+              _context2.next = 3;
+              return axios.post("/api/categories/".concat(data.categoryId, "/words"), data.word);
+
+            case 3:
+              response = _context2.sent;
+
+              if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
+                _context2.next = 7;
+                break;
+              }
+
+              context.commit('status/setApiStatus', true, {
+                root: true
+              });
+              return _context2.abrupt("return", false);
+
+            case 7:
+              context.commit('status/setApiStatus', false, {
+                root: true
+              });
+
+              if (response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"]) {
+                context.commit('setWordErrorMessages', response.data.errors);
+              } else {
+                context.commit('error/setCode', response.status, {
+                  root: true
+                });
+              }
+
+            case 9:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    function addWord(_x3, _x4) {
+      return _addWord.apply(this, arguments);
+    }
+
+    return addWord;
+  }(),
+  updateWord: function () {
+    var _updateWord = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(context, data) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              context.commit('status/setApiStatus', null, {
+                root: true
+              });
+              _context3.next = 3;
+              return axios.patch("/api/categories/".concat(data.categoryId, "/words/").concat(data.wordId), data.word);
+
+            case 3:
+              response = _context3.sent;
+
+              if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["NO_CONTENT"])) {
+                _context3.next = 7;
+                break;
+              }
+
+              context.commit('status/setApiStatus', true, {
+                root: true
+              });
+              return _context3.abrupt("return", false);
+
+            case 7:
+              context.commit('status/setApiStatus', false, {
+                root: true
+              });
+
+              if (response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"]) {
+                context.commit('setWordErrorMessages', response.data.errors);
+              } else {
+                context.commit('error/setCode', response.status, {
+                  root: true
+                });
+              }
+
+            case 9:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    function updateWord(_x5, _x6) {
+      return _updateWord.apply(this, arguments);
+    }
+
+    return updateWord;
+  }(),
+  deleteWord: function () {
+    var _deleteWord = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(context, data) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              context.commit('status/setApiStatus', null, {
+                root: true
+              });
+              _context4.next = 3;
+              return axios["delete"]("/api/categories/".concat(data.categoryId, "/words/").concat(data.wordId), {
+                data: {
+                  word_id: data.wordId
+                }
+              });
+
+            case 3:
+              response = _context4.sent;
+
+              if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["NO_CONTENT"])) {
+                _context4.next = 9;
+                break;
+              }
+
+              context.commit('status/setApiStatus', true, {
+                root: true
+              });
+              return _context4.abrupt("return", false);
+
+            case 9:
+              context.commit('status/setApiStatus', false, {
+                root: true
+              });
+              context.commit('error/setCode', response.status, {
+                root: true
+              });
+
+            case 11:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }));
+
+    function deleteWord(_x7, _x8) {
+      return _deleteWord.apply(this, arguments);
+    }
+
+    return deleteWord;
+  }()
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  mutations: mutations,
+  actions: actions
+});
 
 /***/ }),
 
@@ -57944,7 +59058,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*!******************************!*\
   !*** ./resources/js/util.js ***!
   \******************************/
-/*! exports provided: getCookieValue, OK, CREATED, NOT_FOUND, UNAUTHORIZED, INTERNAL_SERVER_ERROR */
+/*! exports provided: getCookieValue, OK, CREATED, NO_CONTENT, NOT_FOUND, UNPROCESSABLE_ENTITY, UNAUTHORIZED, INTERNAL_SERVER_ERROR */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -57952,7 +59066,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCookieValue", function() { return getCookieValue; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OK", function() { return OK; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CREATED", function() { return CREATED; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NO_CONTENT", function() { return NO_CONTENT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NOT_FOUND", function() { return NOT_FOUND; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNPROCESSABLE_ENTITY", function() { return UNPROCESSABLE_ENTITY; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNAUTHORIZED", function() { return UNAUTHORIZED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "INTERNAL_SERVER_ERROR", function() { return INTERNAL_SERVER_ERROR; });
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
@@ -57988,7 +59104,9 @@ function getCookieValue(searchKey) {
 }
 var OK = 200;
 var CREATED = 201;
+var NO_CONTENT = 204;
 var NOT_FOUND = 404;
+var UNPROCESSABLE_ENTITY = 422;
 var UNAUTHORIZED = 419;
 var INTERNAL_SERVER_ERROR = 500;
 

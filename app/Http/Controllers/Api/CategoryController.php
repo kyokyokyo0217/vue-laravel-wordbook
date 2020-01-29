@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Category;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCategory;
 use App\Http\Requests\UpdateCategory;
 use App\Http\Resources\CategoryIndexResource;
 use Illuminate\Support\Facades\Auth;
+
 
 class CategoryController extends Controller
 {
@@ -33,6 +35,8 @@ class CategoryController extends Controller
     public function store(StoreCategory $request)
     {
         Auth::user()->categories()->create(['name' => $request->category_name]);
+
+        return response('', 201);
     }
 
 
@@ -47,6 +51,8 @@ class CategoryController extends Controller
     {
         // $category = Category::findOrFail($request->id);
         $category->fill($request->all())->save();
+
+        return response('', 204);
     }
 
     /**
@@ -58,5 +64,7 @@ class CategoryController extends Controller
     public function destroy(Request $request)
     {
         Category::destroy($request->category_id);
+
+        return response('', 204);
     }
 }

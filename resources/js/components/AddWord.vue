@@ -10,6 +10,22 @@
         </button>
       </div>
     </div>
+
+    <div v-if="wordErrorMessages" class="text-danger">
+      <ul v-if="wordErrorMessages.name">
+        <li v-for="msg in wordErrorMessages.name" :key="msg">{{ msg }}</li>
+      </ul>
+      <ul v-if="wordErrorMessages.definition">
+        <li v-for="msg in wordErrorMessages.definition" :key="msg">{{ msg }}</li>
+      </ul>
+      <ul v-if="wordErrorMessages.memo">
+        <li v-for="msg in wordErrorMessages.memo" :key="msg">{{ msg }}</li>
+      </ul>
+      <ul v-if="wordErrorMessages.url">
+        <li v-for="msg in wordErrorMessages.url" :key="msg">{{ msg }}</li>
+      </ul>
+    </div>
+
     <div class="form-group mt-4">
       <label for="word">Word</label>
       <input
@@ -64,6 +80,7 @@ export default {
       name: String,
     }
   },
+
   data() {
     return {
       word: {
@@ -75,6 +92,16 @@ export default {
       },
     }
   },
+
+  computed:{
+    apiStatus(){
+      return this.$store.state.status.apiStatus
+    },
+    wordErrorMessages(){
+      return this.$store.state.word.wordErrorMessages
+    },
+  },
+
   watch: {
     activeCategory: {
       handler: function (val, oldVal) {
@@ -84,15 +111,20 @@ export default {
       deep: true
     }
   },
+
   methods: {
     hideAddForm () {
-      this.$emit('input');
+      this.$emit('input')
+      this.$store.commit('word/setWordErrorMessages', null)
     },
-    submit() {
-      axios
-        .post(`/api/categories/${this.activeCategory.id}/words`, this.word);
-      this.hideAddForm();
-      this.$emit('getWords');
+
+    async submit() {
+      await this.$store.dispatch('word/addWord', {categoryId: this.activeCategory.id, word: this.word})
+
+      if(this.apiStatus){
+        this.hideAddForm();
+        this.$emit('getWords');
+      }
     }
   },
 }
