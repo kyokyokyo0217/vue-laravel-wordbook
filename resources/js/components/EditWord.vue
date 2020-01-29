@@ -10,6 +10,22 @@
         </button>
       </div>
     </div>
+
+    <div v-if="wordErrorMessages" class="text-danger">
+      <ul v-if="wordErrorMessages.name">
+        <li v-for="msg in wordErrorMessages.name" :key="msg">{{ msg }}</li>
+      </ul>
+      <ul v-if="wordErrorMessages.definition">
+        <li v-for="msg in wordErrorMessages.definition" :key="msg">{{ msg }}</li>
+      </ul>
+      <ul v-if="wordErrorMessages.memo">
+        <li v-for="msg in wordErrorMessages.memo" :key="msg">{{ msg }}</li>
+      </ul>
+      <ul v-if="wordErrorMessages.url">
+        <li v-for="msg in wordErrorMessages.url" :key="msg">{{ msg }}</li>
+      </ul>
+    </div>
+
     <div class="form-group mt-4">
       <label for="word">Word</label>
       <input
@@ -67,8 +83,8 @@ export default {
       categoryId: Number,
     }
   },
+
   data() {
-    // propsをdataに代入したい！！！
     return {
       word: {
         name: '',
@@ -78,6 +94,16 @@ export default {
       },
     }
   },
+
+  computed:{
+    apiStatus(){
+      return this.$store.state.status.apiStatus
+    },
+    wordErrorMessages(){
+      return this.$store.state.word.wordErrorMessages
+    },
+  },
+
   // computedの方が適切？
   watch: {
     activeWord: {
@@ -86,20 +112,25 @@ export default {
         this.word.definition = this.activeWord.definition;
         this.word.memo = this.activeWord.memo;
         this.word.url = this.activeWord.url;
+        this.$store.commit('word/setWordErrorMessages', null)
       },
       immediate: true,
       deep: true
     }
   },
+
   methods: {
     hideEditForm () {
       this.$emit('input');
     },
-    submit() {
-      axios
-        .patch(`/api/categories/${this.activeWord.categoryId}/words/${this.activeWord.id}`, this.word);
-      this.hideEditForm();
-      this.$emit('getWords');
+
+    async submit() {
+      await this.$store.dispatch('word/updateWord', {categoryId: this.activeWord.categoryId, wordId: this.activeWord.id, word: this.word})
+
+      if(this.apiStatus){
+        this.hideEditForm();
+        this.$emit('getWords');
+      }
     }
   },
 }

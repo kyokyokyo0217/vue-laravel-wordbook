@@ -6,6 +6,7 @@ use App\Word;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\WordIndexResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Requests\StoreWord;
 use App\Http\Requests\UpdateWord;
 
@@ -27,15 +28,21 @@ class WordController extends Controller
         'memo' => $request->memo,
         'url' => $request->url,
       ]);
+
+        return response('', 201);
     }
 
     public function update(UpdateWord $request, Category $category, Word $word)
     {
       $word->fill($request->all())->save();
+
+      return response('', 204);
     }
 
     public function destroy(Request $request)
     {
         Word::destroy($request->word_id);
+
+        return response('', 204);
     }
 }

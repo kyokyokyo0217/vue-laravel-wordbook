@@ -9,21 +9,22 @@
               </div>
               <div class="text-right">
                 <button
-                  v-if="!showNewCategoryForm"
                   class="btn btn-secondary btn-sm-circle"
                   @click="showNewCategoryForm = true;"
+                  :disabled="showNewCategoryForm || toggleEdit"
                  ><i class="fas fa-plus"></i>
                 </button>
                   <button
-                    v-if="!toggled && !noCategoriesYet"
+                    v-if="!toggleEdit && !noCategoriesYet"
                     class="btn btn-secondary btn-sm btn-smaller"
-                    @click="toggled =! toggled"
+                    @click="toggleEdit = !toggleEdit"
+                    :disabled="showNewCategoryForm || toggleEdit"
                     ><i class="fas fa-wrench"></i>
                   </button>
                   <button
-                    v-if="toggled && !noCategoriesYet"
+                    v-if="toggleEdit && !noCategoriesYet"
                     class="btn btn-sm btn-outline-secondary btn-smaller"
-                    @click="toggled =! toggled"
+                    @click="toggleEdit =! toggleEdit; activeEditCategory = null"
                     ><i class="fas fa-times"></i>
                   </button>
               </div>
@@ -62,7 +63,7 @@
           </div>
 
           <!-- category-items -->
-          <div v-if="!toggled">
+          <div v-if="!toggleEdit">
             <div
               class="btn list-group-item list-group-item-action"
               @click="selectCategory(category)"
@@ -72,7 +73,7 @@
              >{{ category.name }}
             </div>
           </div>
-          <div v-if="toggled">
+          <div v-if="toggleEdit">
             <div
               class="list-group-item text-left"
               v-for="(category, index) in categories"
@@ -97,7 +98,7 @@
                </div>
              </div>
             <!-- 保存しなくても見た目的に変更されてしまう -->
-             <div v-if="activeEditCategory === category" class="">
+             <div v-if="activeEditCategory === category">
                <div v-if="categoryErrorMessages" class="text-danger mx-auto">
                  <ul v-if="categoryErrorMessages.name" class="pl-2">
                    <li v-for="msg in categoryErrorMessages.name" :key="msg">{{ msg }}</li>
@@ -145,7 +146,7 @@
         showWordList: false,
         showNewCategoryForm: false,
         newCategory: null,
-        toggled: false,
+        toggleEdit: false,
         // びみょう
         noCategoriesYet: false,
       };
@@ -170,15 +171,20 @@
         this.showWordList = true;
         this.activeCategory = category;
       },
+
       selectEditCategory(category){
         this.activeEditCategory = category;
       },
-      getCategories(){
-        axios.get("/api/categories").then(response => {
-          this.categories = response.data.data;
-          this.noCategoriesYet = this.categories.length === 0 ? true : false;
+
+      async getCategories(){
+        await this.$store.dispatch('category/getCategories').then(response => {
+          if(this.apiStatus){
+            this.categories = response.data.data;
+            this.noCategoriesYet = this.categories.length === 0 ? true : false;
+          }
         });
       },
+
       async submit(){
         await this.$store.dispatch('category/addCategory', this.newCategory);
 
@@ -188,6 +194,7 @@
           this.getCategories();
         }
       },
+
       async update(){
         await this.$store.dispatch('category/updateCategory', this.activeEditCategory);
 
@@ -196,10 +203,13 @@
           this.getCategories();
         }
       },
-      deleteCategory(id){
-        axios
-          .delete(`/api/categories/${id}`, { data: { category_id: id } });
-        this.getCategories();
+
+      async deleteCategory(id){
+        await this.$store.dispatch('category/deleteCategory', id);
+
+        if(this.apiStatus){
+          this.getCategories();
+        }
       },
     },
   };
